@@ -1,0 +1,48 @@
+apiVersion: 0.3.0
+environments:
+  default:
+    destination:
+      namespace: default
+      server: https://104.198.251.146
+    k8sVersion: v1.9.7
+    path: default
+  nativek8s:
+    destination:
+      namespace: sandbox
+      server: https://104.198.251.146
+    k8sVersion: v1.9.7
+    path: nativek8s
+kind: ksonnet.io/app
+libraries:
+  ciscoai/nfs-server:
+    name: nfs-server
+    registry: ciscoai
+    version: 704aadb4b0da8d95be7be48257e731e89ddd1f56
+  ciscoai/nfs-volume:
+    name: nfs-volume
+    registry: ciscoai
+    version: 704aadb4b0da8d95be7be48257e731e89ddd1f56
+  ciscoai/tf-mnistjob:
+    name: tf-mnistjob
+    registry: ciscoai
+    version: 704aadb4b0da8d95be7be48257e731e89ddd1f56
+  kubeflow/core:
+    name: core
+    registry: kubeflow
+    version: c7b3be5138d8c41ec86991da3fe05b6c11d6908b
+  kubeflow/tf-serving:
+    name: tf-serving
+    registry: kubeflow
+    version: c7b3be5138d8c41ec86991da3fe05b6c11d6908b
+name: helix
+registries:
+  ciscoai:
+    protocol: github
+    uri: github.com/CiscoAI/kubeflow-examples/tree/master/tf-mnist/pkg
+  incubator:
+    protocol: github
+    uri: github.com/ksonnet/parts/tree/master/incubator
+  kubeflow:
+    protocol: github
+    uri: github.com/kubeflow/kubeflow/tree/v0.3.0-rc.3/kubeflow
+version: 0.0.1
