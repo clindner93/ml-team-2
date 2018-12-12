@@ -23,7 +23,7 @@ ks env set ${KF_ENV} --namespace ${NAMESPACE}
 ks registry add kubeflow github.com/kubeflow/kubeflow/tree/${KUBEFLOW_GITHUB_VERSION}/kubeflow
 
 ## Private registry that contains ${APP_NAME} example components
-#ks registry add ciscoai github.com/CiscoAI/kubeflow-examples/tree/${CISCOAI_GITHUB_VERSION}/tf-mnist/pkg
+ks registry add ciscoai github.com/CiscoAI/kubeflow-examples/tree/${CISCOAI_GITHUB_VERSION}/tf-mnist/pkg
 
 #5. Install necessary packages from registries
 
@@ -32,44 +32,44 @@ ks pkg install kubeflow/tf-serving@${KUBEFLOW_GITHUB_VERSION}
 
 #ks pkg install ciscoai/nfs-server@${CISCOAI_GITHUB_VERSION}
 #ks pkg install ciscoai/nfs-volume@${CISCOAI_GITHUB_VERSION}
-#ks pkg install ciscoai/tf-${APP_NAME}job@${CISCOAI_GITHUB_VERSION}
+ks pkg install ciscoai/tf-mnistjob@${CISCOAI_GITHUB_VERSION}
 
 #6. Deploy kubeflow core components to K8s cluster.
 
 # If you are doing this on GCP, you need to run the following command first:
 # kubectl create clusterrolebinding your-user-cluster-admin-binding --clusterrole=cluster-admin --user=<your@email.com>
 
-ks generate centraldashboard centraldashboard
-ks apply ${KF_ENV} -c centraldashboard 
-ks generate tf-job-operator tf-job-operator
-ks apply ${KF_ENV} -c tf-job-operator 
+#ks generate centraldashboard centraldashboard
+#ks apply ${KF_ENV} -c centraldashboard 
+#ks generate tf-job-operator tf-job-operator
+#ks apply ${KF_ENV} -c tf-job-operator 
 
 #7. Deploy NFS server in the k8s cluster **(Optional step)**
 
 # If you have already setup a NFS server, you can skip this step and proceed to
 # step 8. Set `NFS_SERVER_IP`to ip of your NFS server
-ks generate nfs-server nfs-server
-ks apply ${KF_ENV} -c nfs-server
+#ks generate nfs-server nfs-server
+#ks apply ${KF_ENV} -c nfs-server
 
 #8. Deploy NFS PV/PVC in the k8s cluster **(Optional step)**
 
 # If you have already created NFS PersistentVolume and PersistentVolumeClaim,
 # you can skip this step and proceed to step 9.
-NFS_SERVER_IP=`kubectl -n ${NAMESPACE} get svc/nfs-server  --output=jsonpath={.spec.clusterIP}`
-echo "NFS Server IP: ${NFS_SERVER_IP}"
-ks generate nfs-volume nfs-volume  --name=${NFS_PVC_NAME}  --nfs_server_ip=${NFS_SERVER_IP}
-ks apply ${KF_ENV} -c nfs-volume
+#NFS_SERVER_IP=`kubectl -n ${NAMESPACE} get svc/nfs-server  --output=jsonpath={.spec.clusterIP}`
+#echo "NFS Server IP: ${NFS_SERVER_IP}"
+#ks generate nfs-volume nfs-volume  --name=${NFS_PVC_NAME}  --nfs_server_ip=${NFS_SERVER_IP}
+#ks apply ${KF_ENV} -c nfs-volume
 
 #### Installation is complete now ####
 
-echo "Make sure that the pods are running"
-kubectl get pods -n ${NAMESPACE}
+#echo "Make sure that the pods are running"
+#kubectl get pods -n ${NAMESPACE}
 
-echo "If you have created NFS Persistent Volume, ensure PVC is created and status is BOUND"
-kubectl get pvc -n ${NAMESPACE}
+#echo "If you have created NFS Persistent Volume, ensure PVC is created and status is BOUND"
+#kubectl get pvc -n ${NAMESPACE}
 
 
 NFS_POD_NAME=`kubectl get pods -n ${NAMESPACE} -o=name | grep nfs-server | cut -d"/" -f2`
 echo $NFS_POD_NAME
 
-kubectl cp ..${TRAIN_DATA_DIR_LOCAL} ${NAMESPACE}/${NFS_POD_NAME}:${TRAIN_DATA_PATH}
+#kubectl cp ..${TRAIN_DATA_DIR_LOCAL} ${NAMESPACE}/${NFS_POD_NAME}:${TRAIN_DATA_PATH}

@@ -1,7 +1,7 @@
 #!/usr/local/env bash
 
 ## Namespace to be used in k8s cluster for your application
-NAMESPACE=sandbox
+NAMESPACE=team-sjc-2
 
 MNIST=mnist
 
@@ -18,7 +18,7 @@ CISCOAI_GITHUB_VERSION=master
 KF_ENV=nativek8s
 
 ## Name of the NFS Persistent Volume
-NFS_PVC_NAME=nfs
+NFS_PVC_NAME=team-sjc-2-nfs-pvc
 
 ## Used in training.bash
 # Enviroment variables for mnist training job (See mnist_model.py)
@@ -27,7 +27,7 @@ TRAIN_DATA_PATH=/mnt${TRAIN_DATA_DIR_LOCAL}
 
 TF_DATA_DIR=/mnt/data
 TF_CHECKPOINT_DIR=/mnt/checkpoint
-NFS_MODEL_PATH=/mnt/export
+NFS_MODEL_PATH=/mnt/model_path/model_trial
 TF_EXPORT_DIR=${NFS_MODEL_PATH}
 
 # If you want to use your own image,
