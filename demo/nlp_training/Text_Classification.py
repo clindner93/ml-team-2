@@ -56,7 +56,8 @@ BOWORDS_PATH = os.getenv("BOWORDS_PATH", ".")
 BOWORDS_FILE = os.getenv("BOWORDS__FILE", "global_words.txt")
 
 
-
+nltk.download('stopwords')
+nltk.download('punkt')
 stemmer = SnowballStemmer("english", ignore_stopwords=True)
 tf.logging.set_verbosity(tf.logging.ERROR)
 
@@ -118,6 +119,7 @@ OUTPUT:
 
 
 #print ("\n\n\n")
+nltk.download('stopwords')
 stop_words = stopwords.words('english')
 
 #print(stop_words)
