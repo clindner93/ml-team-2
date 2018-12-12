@@ -1,0 +1,16 @@
+Can my router be pinged?
+Is it possible to reach my controller
+network-device reachability
+Connectivity to network-device
+Connection to routers?
+Check connection to network-device
+Provide a list of locations
+Give a list of system sites
+Area, Location, Buildings, Floors
+site wise listing
+Exhaustive list of all places where my devices are
+no of devices unclaimed
+num devices unclaimed
+count of unclaimed devices
+not been claimed devices
+not yet claim devices
