@@ -32,11 +32,14 @@ TF_MODEL_EXPORT_PATH=${NFS_MODEL_PATH}
 TF_MODEL_VERSION=1
 BOWORDS_PATH=${NFS_MODEL_PATH}/global_words.txt
 
+TEST_CLASSES_PATH=/mnt/traindata/TestDataClasses.txt
+TEST_DATA_PATH=/mnt/traindata/TestDataset.txt
+
 # If you want to use your own image,
 # make sure you have a dockerhub account and change
 # DOCKER_BASE_URL and IMAGE below.
 DOCKER_BASE_URL=chrlindn/sjc-team-2
-IMAGE=${DOCKER_BASE_URL}:${APP_NAME}
+IMAGE=${DOCKER_BASE_URL}:${APP_NAME}6
 
 
 #docker build . --no-cache  -f Dockerfile -t ${IMAGE}
