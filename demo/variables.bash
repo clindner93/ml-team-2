@@ -22,13 +22,15 @@ NFS_PVC_NAME=team-sjc-2-nfs-pvc
 
 ## Used in training.bash
 # Enviroment variables for mnist training job (See mnist_model.py)
-TRAIN_DATA_DIR_LOCAL=/traindata
-TRAIN_DATA_PATH=/mnt${TRAIN_DATA_DIR_LOCAL}
+TRAIN_DATA_FILE_LOCAL=/traindata/TrainingDataset.json
+TRAIN_DATA_FILE_PATH=/mnt${TRAIN_DATA_FILE_LOCAL}
 
 TF_DATA_DIR=/mnt/data
 TF_CHECKPOINT_DIR=/mnt/checkpoint
-NFS_MODEL_PATH=/mnt/model_path/model_trial
-TF_EXPORT_DIR=${NFS_MODEL_PATH}
+NFS_MODEL_PATH=/mnt/modelpath
+TF_MODEL_EXPORT_PATH=${NFS_MODEL_PATH}
+TF_MODEL_VERSION=1
+BOWORDS_PATH=${NFS_MODEL_PATH}/global_words.txt
 
 # If you want to use your own image,
 # make sure you have a dockerhub account and change

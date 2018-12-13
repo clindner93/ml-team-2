@@ -15,7 +15,7 @@ pwd
 # Set training job specific environment variables in `envs` variable(comma
 # separated key-value pair). These key-value pairs are passed on to the
 # training job when created.
-ENV="TF_DATA_DIR=$TF_DATA_DIR,TF_EXPORT_DIR=$TF_EXPORT_DIR,TF_CHECKPOINT_DIR=$TF_CHECKPOINT_DIR,TRAIN_DATA_PATH=$TRAIN_DATA_PATH"
+ENV="TF_DATA_DIR=$TF_DATA_DIR,TF_CHECKPOINT_DIR=$TF_CHECKPOINT_DIR,TRAIN_DATA_FILE_PATH=$TRAIN_DATA_FILE_PATH,TF_MODEL_EXPORT_PATH=$TF_MODEL_EXPORT_PATH,TF_MODEL_VERSION=$TF_MODEL_VERSION,BOWORDS_PATH=$BOWORDS_PATH"
 
 JOB=tf-${APP_NAME}job
 #ks generate ${JOB} ${JOB}
