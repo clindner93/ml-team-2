@@ -30,7 +30,8 @@ TF_CHECKPOINT_DIR=/mnt/checkpoint
 NFS_MODEL_PATH=/mnt/modelpath
 TF_MODEL_EXPORT_PATH=${NFS_MODEL_PATH}
 TF_MODEL_VERSION=1
-BOWORDS_PATH=${NFS_MODEL_PATH}/global_words.txt
+
+BOWORDS_PATH=/mnt/traindata/global_words.txt
 
 TEST_CLASSES_PATH=/mnt/traindata/TestDataClasses.txt
 TEST_DATA_PATH=/mnt/traindata/TestDataset.txt
