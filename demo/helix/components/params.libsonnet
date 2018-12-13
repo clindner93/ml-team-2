@@ -3,50 +3,13 @@
   components: {
     // Component-level parameters, defined initially from 'ks prototype use ...'
     // Each object below should correspond to a component in the components/ directory
-    centraldashboard: {
-      image: 'gcr.io/kubeflow-images-public/centraldashboard:v0.3.0',
-      name: 'centraldashboard',
-    },
-    "tf-job-operator": {
-      cloud: 'null',
-      deploymentNamespace: 'null',
-      deploymentScope: 'cluster',
-      name: 'tf-job-operator',
-      namespace: 'null',
-      tfDefaultImage: 'null',
-      tfJobImage: 'gcr.io/kubeflow-images-public/tf_operator:v0.3.0',
-      tfJobUiServiceType: 'ClusterIP',
-      tfJobVersion: 'v1alpha2',
-    },
     "nfs-server": {
       name: 'nfs-server',
       namespace: 'null',
     },
-    "nfs-volume": {
-      capacity: '1Gi',
-      mountpath: '/',
-      name: 'nfs',
-      namespace: 'null',
-      nfs_server_ip: '10.23.246.148',
-      storage_request: '1Gi',
-    },
-    "tf-mnistjob": {
-      args: 'null',
-      envs: 'null',
-      image: 'null',
-      image_gpu: 'null',
-      image_pull_secrets: 'null',
-      name: 'tf-mnistjob',
-      namespace: 'null',
-      num_gpus: 0,
-      num_masters: 1,
-      num_ps: 1,
-      num_workers: 1,
-      volume_mount_path: 'null',
-    },
     "tf-helixjob": {
       args: 'null',
-      envs: 'TF_DATA_DIR=/mnt/data,TF_EXPORT_DIR=/mnt/export,TF_CHECKPOINT_DIR=/mnt/checkpoint,TRAIN_DATA_PATH=/mnt/traindata',
+      envs: 'TF_DATA_DIR=/mnt/data,TF_EXPORT_DIR=/mnt/model_path,TF_CHECKPOINT_DIR=/mnt/checkpoint,TRAIN_DATA_PATH=/mnt/traindata',
       image: 'chrlindn/sjc-team-2:helix',
       image_gpu: 'null',
       image_pull_secrets: 'null',
@@ -57,6 +20,12 @@
       num_ps: 1,
       num_workers: 1,
       volume_mount_path: 'null',
+    },
+    tfserving: {
+      modelPath: '/mnt/model_path/model_trial',
+      modelStorageType: 'nfs',
+      name: 'helix',
+      nfsPVC: 'team-sjc-2-nfs-pvc',
     },
   },
 }

@@ -12,7 +12,7 @@ source variables.bash
 kubectl create namespace ${NAMESPACE}
 
 #3. Initialize the ksonnet app and create ksonnet environment. Environment makes it easy to manage app versions(Say dev, prod, test)
-ks init ${APP_NAME}
+#ks init ${APP_NAME}
 cd ${APP_NAME}
 ks env add ${KF_ENV}
 ks env set ${KF_ENV} --namespace ${NAMESPACE}

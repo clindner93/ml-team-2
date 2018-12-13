@@ -17,6 +17,8 @@ import sys
 #from scipy import metrics
 #from sklearn import metrics
 
+print("helix version 4")
+
 TRAIN_DATA_PATH = os.getenv("TRAIN_DATA_FILE_PATH", "./TrainingDataset.json")
 
 #PATH FOR TEST DATA
@@ -64,10 +66,8 @@ if __name__ == '__main__':
     indx = 0
     classified_classes = ['Unknown'] * 16
 
-    nltk.download('stopwords')
-    nltk.download('punkt')
     stemmer = SnowballStemmer("english", ignore_stopwords=True)
-    tf.logging.set_verbosity(tf.logging.ERROR)
+    tf.logging.set_verbosity(tf.logging.DEBUG)
 
     with open(TRAIN_DATA_PATH) as json_data:
         data = json.load(json_data)
@@ -94,7 +94,6 @@ if __name__ == '__main__':
             docs.append((w, each_class))
 
 
-    nltk.download('stopwords')
     stop_words = stopwords.words('english')
 
     words = [stemmer.stem(w.lower()) for w in words]

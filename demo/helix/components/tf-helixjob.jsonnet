@@ -86,9 +86,7 @@ local job =
       },
       spec: {
         tfReplicaSpecs: {
-          Master: replicas[0],
-          Worker: replicas[1],
-          Ps: replicas[2],
+          Worker: replicas[0],
         },
       },
     };
