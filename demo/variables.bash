@@ -46,8 +46,6 @@ PORT=9000
 export TF_MODEL_SERVER_PORT=${PORT}
 
 # Used in webapp.bash
-DOCKER_HUB=gcr.io
-DOCKER_USERNAME=cpsg-ai-demo
-DOCKER_IMAGE=mnist-client
+CLIENT_IMAGE=chrlindn/sjc-team-2:helix-client9
 WEBAPP_FOLDER=webapp
 

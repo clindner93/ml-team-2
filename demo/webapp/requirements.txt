@@ -1,6 +1,8 @@
 Flask==0.10.1
 tensorflow
 tensorflow-serving-api
-python-mnist
 Pillow
 gunicorn
+numpy
+nltk
+tflearn

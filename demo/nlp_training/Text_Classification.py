@@ -42,7 +42,7 @@ def get_tf_record(sentence):
     bow = [0]*len(words)
     for s in sentence_words:
         for i, w in enumerate(words):
-            if w == s:
+            if w.strip() == s.strip():
                 bow[i] = 1
     return(np.array(bow))
 
