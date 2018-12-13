@@ -128,6 +128,12 @@ if __name__ == '__main__':
 
     train_y = list(training[:, 1])
 
+    # Start TensorFlow Session
+    sess = tf.Session()
+    init = tf.initialize_all_variables()
+    sess.run(init)
+
+
     ## Define model
     tf.reset_default_graph() 
     norm_init_with_seed = tf.random_normal_initializer(mean=0.0, stddev=1.0, seed=1,dtype=tf.float32)
@@ -141,18 +147,7 @@ if __name__ == '__main__':
 
     model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
 
-    # Train Karos Model
-    model.fit(train_x, train_y, n_epoch=30, batch_size=10, show_metric=True,validation_set=0.1)
-    
-    # Save Karos Model
-    model.save(MODEL_PATH)
-
-    # Start TensorFlow Session
-    sess = tf.Session()
-    init = tf.initialize_all_variables()
-    sess.run(init)
-
-    # Import as TF Model 
+        # Import as TF Model 
     builder = tf.saved_model.builder.SavedModelBuilder(MODEL_PATH)
     numx = len(train_x[0])
     numy = len(train_y[0])
@@ -160,11 +155,8 @@ if __name__ == '__main__':
 
     # Export for Serving
     serialized_tf_example = tf.placeholder(tf.string, name='tf_example')
-    print(serialized_tf_example)
     feature_configs = {'x': tf.FixedLenFeature(shape=[numx], dtype=tf.int64),}
-    print(feature_configs)
     tf_example = tf.parse_example(serialized_tf_example, feature_configs)
-    print(tf_example)
     x = tf.identity(tf_example['x'], name='x') 
     print(x)
     
@@ -172,6 +164,11 @@ if __name__ == '__main__':
     y = model.predict([train_x[0]])
     print(y)
 
+    # Train Karos Model
+    model.fit(train_x, train_y, n_epoch=30, batch_size=10, show_metric=True,validation_set=0.1)
+    
+    # Save Karos Model
+    #model.save(MODEL_PATH)
 
     tensor_info_x = tf.saved_model.utils.build_tensor_info(x)
     tensor_info_y = tf.saved_model.utils.build_tensor_info(tf.convert_to_tensor(y))
