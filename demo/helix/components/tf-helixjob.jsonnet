@@ -56,11 +56,11 @@ local replicas = std.map(function(s)
                            s {
                              template+: {
                                spec+: {
-                                  volumes: [ { name: "nfsvolume", persistentVolumeClaim: { claimName: "nfs" } } ] ,
+                                  volumes: [ { name: "team-sjc-2-nfs-pv", persistentVolumeClaim: { claimName: "team-sjc-2-nfs-pvc" } } ] ,
                                  
                                   containers: [
                                    s.template.spec.containers[0] {
-                                           volumeMounts: [ { mountPath: mountPath , name: "nfsvolume" } ],
+                                           volumeMounts: [ { mountPath: mountPath , name: "team-sjc-2-nfs-pv" } ],
                                            env: envs 
                                 
                                    },
