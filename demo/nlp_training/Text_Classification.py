@@ -66,101 +66,40 @@ with open(TRAIN_DATA_PATH +'/'+TRAIN_DATA_FILE) as json_data:
 
 classes = data.keys()
 print("The classes are " + str(classes))
-
 print("The number of classes are " + str(len(classes)))
 
 
-#print(len(data['device reachability']))
-#print(len(data[classes[0]]))
-#print(len(data[classes[1]]))
-#print(len(data[classes[2]]))
 
 for length in range(0, len(classes)):
 	print("Class " + str(length+1) + " is " + str(classes[length]) + " - It has " + str(len(data[classes[length]])) + " TrainingDataset")
 
 
-'''
-print("The length of the TrainingDataset is " + str(len(data)))
-print(data)
-'''
-
-words = []
+words = set([])
 docs = []
 
 
 for each_class in data.keys():
     for each_sentence in data[each_class]:
         w = nltk.word_tokenize(each_sentence)
-        words.extend(w)
+        for wo in w:
+            words.add(wo)
         docs.append((w, each_class))
 
-
-
-'''
-for i in (0, 2):
-
-	w = nltk.word_tokenize(data[classes[0]][i])
-
-	print(w)
-	words.extend(w)
-	docs.append((w, classes[0]))
-	print docs
-OUTPUT:
-
-[u'Is', u'my', u'device', u'reachable', u'?']
-[([u'Is', u'my', u'device', u'reachable', u'?'], u'device reachability')]
-[u'Is', u'my', u'device', u'reachable']
-[([u'Is', u'my', u'device', u'reachable', u'?'], u'device reachability'), ([u'Is', u'my', u'device', u'reachable'], u'device reachability')]
-
-'''
-
-#print(words)
-#print(len(words))
 
 
 #print ("\n\n\n")
 nltk.download('stopwords')
 stop_words = stopwords.words('english')
 
-#print(stop_words)
-
-#print ("\n\n\n")
-
-
 words = [stemmer.stem(w.lower()) for w in words]
-
 words = [w for w in words if not w in stop_words] 
-
-#print(words)
-#print(len(words))
-
-#print ("\n\n\n")
 words = sorted(list(set(words)))
-
-
-
-with open(BOWORDS_PATH+'/'+BOWORDS_FILE, 'w') as f:
-    for word in words:
-        f.write("%s\n" % word)
-
-
 
 training = []
 output = []
 output_empty = [0] * len(classes)
 
-'''
-print(output_empty)
-[0, 0, 0]
-
-'''
-
-
-
 for doc in docs:
-	#print(doc[0])
-	#print(len(doc[0]))
-    
 
     bow = []
     token_words = doc[0]
@@ -170,32 +109,21 @@ for doc in docs:
         bow.append(1) if w in token_words else bow.append(0)
     output_row = list(output_empty)
     output_row[classes.index(doc[1])] = 1
+    #print(bow)
+    #print(output_row)
     training.append([bow, output_row])
 
 
-    
-'''
-    for w in words:
-        bow.append(1) if w in token_words else bow.append(0)
-    output_row = list(output_empty)
-    output_row[categories.index(doc[1])] = 1
-    training.append([bow, output_row])
-	'''
-
-
-#### PREPPING DATA GETS OVER
-
-
-##### STARTING TRAINING TEST SPLIT
-
-
-
+with open(BOWORDS_PATH+'/'+BOWORDS_FILE, 'w') as f:
+    for word in words:
+        f.write("%s\n" % word)
 
 random.shuffle(training)
 
 training = np.array(training)
 
 train_x = list(training[:, 0])
+print(len(train_x[0]))
 
 train_y = list(training[:, 1])
 
@@ -208,14 +136,10 @@ net = tflearn.fully_connected(net, 4, weights_init = norm_init_with_seed)
 #net = tflearn.fully_connected(net, 8, restore='False')
 net = tflearn.fully_connected(net, len(train_y[0]), activation='softmax')
 net = tflearn.regression(net)
+
 model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
 
 
-
-'''
-callbacks = [tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=4),
-             tf.keras.callbacks.ModelCheckpoint(filepath='./best_model.h5', monitor='val_loss', save_best_only=True)]
-             '''
 #Getting input sentence and parsing
 
 
@@ -252,6 +176,8 @@ def classifyQuery(query=None):
         #return (return_str)
     '''
 def trainData():
+
+
     model.fit(train_x, train_y, n_epoch=2, batch_size=10, show_metric=True,validation_set=0.05)
     #model.save('model.tflearn')
     model.save(TF_MODEL_EXPORT_PATH+'/'+TF_MODEL_EXPORT_FILE)
@@ -264,20 +190,24 @@ def trainData():
     builder = tf.saved_model.builder.SavedModelBuilder(TF_MODEL_EXPORT_PATH+'/'+TF_MODEL_EXPORT_FILE)
     numx =len(train_x[0])
     numy = 3
-    
-    serialized_tf_example = tf.placeholder(tf.string, name='tf_example')
-    feature_configs = {'x': tf.FixedLenFeature(shape=[numx], dtype=tf.int64),}
-    tf_example = tf.parse_example(serialized_tf_example, feature_configs)
-    x = tf.identity(tf_example['x'], name='x') 
 
-    serialized_tf_y_example = tf.placeholder(tf.string, name='tf_y_example')
-    feature_configs = {'y': tf.FixedLenFeature(shape=[numy], dtype=tf.float32),}
-    tf_y_example = tf.parse_example(serialized_tf_y_example, feature_configs)
-    y = tf.identity(tf_y_example['y'], name='y') 
+
+    serialized_tf_example = tf.placeholder(tf.string, name='tf_example')
+    print(serialized_tf_example)
+    feature_configs = {'x': tf.FixedLenFeature(shape=[len(train_x[0])], dtype=tf.int64),}
+    print(feature_configs)
+    tf_example = tf.parse_example(serialized_tf_example, feature_configs)
+    print(tf_example)
+    x = tf.identity(tf_example['x'], name='x') 
+    print(x)
+    
+
+    y = model.predict([train_x[0]])
+    print(y)
 
 
     tensor_info_x = tf.saved_model.utils.build_tensor_info(x)
-    tensor_info_y = tf.saved_model.utils.build_tensor_info(y)
+    tensor_info_y = tf.saved_model.utils.build_tensor_info(tf.convert_to_tensor(y))
 
     prediction_signature = (
       tf.saved_model.signature_def_utils.build_signature_def(
